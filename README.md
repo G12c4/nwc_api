@@ -85,9 +85,9 @@ POST /nwc_payment?api_key=your-api-key
 Request body:
 ```json
 {
-  "sender": "WALLET_NAME1",
-  "recipient": "WALLET_NAME2",
-  "euro_amount": 0.000001
+  "sender": "WALLET_NAME1", # Wallet URI from the .env file
+  "recipient": "WALLET_NAME2", # Wallet URI from the .env file
+  "euro_amount": 0.000001 # Amount in EUR
 }
 ```
 
