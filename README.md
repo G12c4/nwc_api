@@ -98,6 +98,7 @@ Request body:
 - `make run` - Run the application locally
 - `make build` - Build the application binary
 - `make test` - Run all tests
+- `make push` - Push to git
 - `make clean` - Clean build artifacts
 - `make docker-build` - Build a Docker image
 - `make docker-run` - Run the app in a Docker container
