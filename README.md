@@ -18,7 +18,7 @@ A Go-based API for making Lightning Network payments between Nostr Wallet Connec
 
 ## Configuration
 
-Create a `.env` file in the root directory with the following variables:
+Rename the .env.example to `.env` in the root directory and modify the following variables:
 
 ```
 # Wallet URIs
