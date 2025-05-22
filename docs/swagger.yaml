@@ -1,0 +1,162 @@
+definitions:
+  main.ConversionResponse:
+    properties:
+      euro_amount:
+        type: number
+      msat_amount:
+        type: integer
+    type: object
+  main.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  main.HealthResponse:
+    properties:
+      status:
+        type: string
+      wallets:
+        additionalProperties:
+          type: boolean
+        type: object
+    type: object
+  main.NwcPaymentRequest:
+    properties:
+      euro_amount:
+        example: 1e-06
+        type: number
+      recipient:
+        example: WALLET_VRATA_KRKE
+        type: string
+      sender:
+        example: WALLET_JOSIP
+        type: string
+    required:
+    - euro_amount
+    - recipient
+    - sender
+    type: object
+  main.NwcPaymentResponse:
+    properties:
+      amount_msats:
+        type: integer
+      euro_amount:
+        type: number
+      fees_paid:
+        type: integer
+      message:
+        type: string
+      recipient_balance:
+        type: integer
+      sender_balance:
+        type: integer
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /convert/eur-to-msats:
+    get:
+      description: Converts a Euro amount to millisatoshis using current exchange
+        rate
+      parameters:
+      - description: Amount in EUR
+        in: query
+        name: amount
+        required: true
+        type: number
+      - description: API Key for authentication
+        in: query
+        name: api_key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.ConversionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Convert EUR to millisatoshis
+      tags:
+      - conversion
+  /health:
+    get:
+      description: Verifies connectivity to a specified wallet or all wallets if none
+        specified
+      parameters:
+      - description: Wallet ID to check. If not provided, checks all wallets.
+        in: query
+        name: wallet_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.HealthResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Check health of wallet
+      tags:
+      - health
+  /nwc_payment:
+    post:
+      consumes:
+      - application/json
+      description: Transfer funds from one wallet to another using EUR amount
+      parameters:
+      - description: API Key for authentication
+        in: query
+        name: api_key
+        required: true
+        type: string
+      - description: Payment Information
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/main.NwcPaymentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.NwcPaymentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Make an NWC payment
+      tags:
+      - payments
+swagger: "2.0"
