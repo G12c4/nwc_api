@@ -66,7 +66,7 @@ make docker-down
 GET /health?wallet_id=WALLET_NAME
 ```
 
-Checks the health of a specific wallet or all wallets if no wallet_id is provided.
+Checks the health of a specific wallet.
 
 ### Convert EUR to Millisatoshis
 
