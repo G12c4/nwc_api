@@ -15,6 +15,13 @@ MAIN_PACKAGE=./
 # Default target
 all: lint test build
 
+# Push to git
+push:
+	@echo "Pushing to git..."
+	@git add .
+	@git commit -m "Update $(VERSION)"
+	@git push
+
 # Run the application
 run:
 	@echo "Running application..."
